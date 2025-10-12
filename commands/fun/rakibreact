@@ -1,0 +1,27 @@
+module.exports = {
+  config: {
+    name: "rakibreact",
+    version: "1.0",
+    author: "ST | Sheikh Tamim",
+    countDown: 0,
+    role: 0,
+    description: "React when someone mentions Rakib",
+    category: "fun",
+    guide: {
+      en: "Just mention 'rakib' in your message",
+      bn: "শুধু আপনার বার্তায় 'rakib' উল্লেখ করুন"
+    }
+  },
+
+  onChat: async function({ message, event, api }) {
+    const text = event.body.toLowerCase();
+    
+    if (text.includes("rakib")) {
+      // React with haha emoji
+      api.setMessageReaction("😆", event.messageID, (err) => {}, true);
+      
+      // Send the message
+      return message.reply("হালার নুনু ছোট 🤣");
+    }
+  }
+};
