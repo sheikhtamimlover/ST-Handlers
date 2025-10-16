@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Project GoatBot</title>
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Quicksand:400,500,700&subset=latin-ext");
+
+        html {
+            position: relative;
+            overflow-x: hidden !important;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Quicksand", sans-serif;
+            color: #324e63;
+        }
+
+        a,
+        a:hover {
+            text-decoration: none;
+        }
+
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            stroke-width: 0;
+            stroke: currentColor;
+            fill: currentColor;
+        }
+
+        .wrapper {
+            width: 100%;
+            width: 100%;
+            height: auto;
+            min-height: 100vh;
+            padding: 50px 20px;
+            padding-top: 100px;
+            display: flex;
+            background: rgb(255, 255, 255);
+            display: flex;
+        }
+
+        @media screen and (max-width: 768px) {
+            .wrapper {
+                height: auto;
+                min-height: 100vh;
+                padding-top: 100px;
+            }
+        }
+
+        .profile-card {
+            width: 100%;
+            min-height: 460;
+            margin: auto;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+            background: rgb(235, 235, 235);
+            border-radius: 12px;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .profile-card.active .profile-card__cnt {
+            filter: blur(6px);
+        }
+
+        .profile-card.active .profile-card-message,
+        .profile-card.active .profile-card__overlay {
+            opacity: 1;
+            pointer-events: auto;
+            transition-delay: 0.1s;
+        }
+
+        .profile-card.active .profile-card-form {
+            transform: none;
+            transition-delay: 0.1s;
+        }
+
+        .profile-card__img {
+            width: 150px;
+            height: 150px;
+            margin-left: auto;
+            margin-right: auto;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            z-index: 4;
+            box-shadow: 0px 2px 40px 0px rgba(25, 27, 29, 0.729), 0px 0px 25px 0px rgba(15, 16, 17, 0.832);
+        }
+
+        @media screen and (max-width: 576px) {
+            .profile-card__img {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        .profile-card__img img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-card__cnt {
+            margin-top: -35px;
+            text-align: center;
+            padding: 0 20px;
+            padding-bottom: 40px;
+            transition: all 0.3s;
+        }
+
+        .profile-card__name {
+            font-weight: 700;
+            font-size: 24px;
+            color: #000000;
+            margin-bottom: 15px;
+        }
+
+        .profile-card__txt {
+            font-size: 18px;
+            font-weight: 500;
+            color: #000000;
+            margin-bottom: 15px;
+        }
+
+        .profile-card__txt strong {
+            font-weight: 700;
+        }
+
+        .profile-card__homepage {
+            font-size: 18px;
+            font-weight: 500;
+            color: #000000;
+            margin-top: 15px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .profile-card-loc {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .profile-card-loc__icon {
+            display: inline-flex;
+            font-size: 27px;
+            margin-right: 10px;
+        }
+
+        .profile-card-inf {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            margin-top: 35px;
+        }
+
+        .profile-card-inf__item {
+            padding: 10px 35px;
+            min-width: 150px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .profile-card-inf__item {
+                padding: 10px 20px;
+                min-width: 120px;
+            }
+        }
+
+        .profile-card-loc__txt {
+            color: #000000;
+        }
+
+        .profile-card-inf__title {
+            font-weight: 700;
+            font-size: 27px;
+            color: #000;
+        }
+
+        .profile-card-inf__txt {
+            font-weight: 500;
+            margin-top: 7px;
+            margin-bottom: 30px;
+            color: #000;
+        }
+
+        .profile-card-contacts {
+            margin-top: 25px;
+            margin: 8px 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            border-radius: 50px;
+        }
+
+        .profile-card-contacts.facebook {
+            background: linear-gradient(45deg, #3b5998, #0078d7);
+            box-shadow: 0px 0px 30px rgba(45, 136, 255, 0.9);
+        }
+
+        .profile-card-contacts.messenger {
+            filter: drop-shadow(0px 0px 20px rgba(159, 0, 203, 0.9));
+            border-radius: 0px;
+        }
+
+        .profile-card-contacts.youtube {
+            box-shadow: 0px 0px 30px rgba(255, 45, 45, 0.9);
+        }
+
+        .profile-card-contacts.github {
+            box-shadow: 0px 0px 30px rgba(38, 38, 38, 0.9);
+        }
+
+        .profile-card-contacts.link {
+            background: linear-gradient(45deg, #d5135a, #f05924);
+            box-shadow: 0px 4px 30px rgba(223, 45, 70, 0.9);
+            height: 50px;
+            width: 50px;
+        }
+
+        .profile-card-social__item {
+            display: inline-flex;
+            width: 55px;
+            height: 55px;
+            margin: 15px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            background: #405de6;
+            box-shadow: 0px 7px 30px rgba(43, 98, 169, 0.5);
+            position: relative;
+            font-size: 21px;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        @media screen and (max-width: 768px) {
+            .profile-card-social__item {
+                width: 50px;
+                height: 50px;
+                margin: 10px;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .profile-card-social__item:hover {
+                transform: scale(1.2);
+            }
+        }
+
+        .profile-card-social__item.facebook {
+            background: linear-gradient(45deg, #3b5998, #0078d7);
+            box-shadow: 0px 4px 30px rgba(43, 98, 169, 0.5);
+        }
+
+        .profile-card-social__item.twitter {
+            background: linear-gradient(45deg, #1da1f2, #0e71c8);
+            box-shadow: 0px 4px 30px rgba(19, 127, 212, 0.7);
+        }
+
+        .profile-card-social__item.instagram {
+            background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+            box-shadow: 0px 4px 30px rgba(120, 64, 190, 0.6);
+        }
+
+        .profile-card-social__item.behance {
+            background: linear-gradient(45deg, #1769ff, #213fca);
+            box-shadow: 0px 4px 30px rgba(27, 86, 231, 0.7);
+        }
+
+        .profile-card-social__item.github {
+            background: linear-gradient(45deg, #333333, #626b73);
+            box-shadow: 0px 4px 30px rgba(63, 65, 67, 0.6);
+        }
+
+        .profile-card-social__item.codepen {
+            background: linear-gradient(45deg, #324e63, #414447);
+            box-shadow: 0px 4px 30px rgba(55, 75, 90, 0.6);
+        }
+
+        .profile-card-social__item.link {
+            background: linear-gradient(45deg, #d5135a, #f05924);
+            box-shadow: 0px 4px 30px rgba(223, 45, 70, 0.6);
+        }
+
+        .profile-card-social .icon-font {
+            display: inline-flex;
+        }
+
+        .profile-card-ctr {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        @media screen and (max-width: 576px) {
+            .profile-card-ctr {
+                flex-wrap: wrap;
+            }
+        }
+
+        .profile-card__button {
+            background: none;
+            border: none;
+            font-family: "Quicksand", sans-serif;
+            font-weight: 700;
+            font-size: 19px;
+            margin: 15px 35px;
+            padding: 15px 40px;
+            min-width: 201px;
+            border-radius: 50px;
+            min-height: 55px;
+            color: #fff;
+            cursor: pointer;
+            backface-visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        @media screen and (max-width: 768px) {
+            .profile-card__button {
+                min-width: 170px;
+                margin: 15px 25px;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .profile-card__button {
+                min-width: inherit;
+                margin: 0;
+                margin-bottom: 16px;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .profile-card__button:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .profile-card__button:focus {
+            outline: none !important;
+        }
+
+        @media screen and (min-width: 768px) {
+            .profile-card__button:hover {
+                transform: translateY(-5px);
+            }
+        }
+
+        .profile-card__button:first-child {
+            margin-left: 0;
+        }
+
+        .profile-card__button:last-child {
+            margin-right: 0;
+        }
+
+        .profile-card__button.button--blue {
+            background: linear-gradient(to right, #1d52f2, #5700b9, #ff0061);
+            box-shadow: 0px 4px 30px rgba(19, 127, 212, 0.4);
+        }
+
+        .profile-card__button.button--blue:hover {
+            box-shadow: 0px 7px 30px rgba(19, 127, 212, 0.75);
+        }
+
+        .profile-card__button.button--orange {
+            background: linear-gradient(45deg, #d5135a, #f05924);
+            box-shadow: 0px 4px 30px rgba(223, 45, 70, 0.35);
+        }
+
+        .profile-card__button.button--orange:hover {
+            box-shadow: 0px 7px 30px rgba(223, 45, 70, 0.75);
+        }
+
+        .profile-card__button.button--gray {
+            box-shadow: none;
+            background: #dcdcdc;
+            color: #142029;
+        }
+
+        .profile-card-message {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding-top: 130px;
+            padding-bottom: 100px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s;
+        }
+
+        .profile-card-form {
+            box-shadow: 0 4px 30px rgba(15, 22, 56, 0.35);
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            height: 100%;
+            background: #fff;
+            border-radius: 10px;
+            padding: 35px;
+            transform: scale(0.8);
+            position: relative;
+            z-index: 3;
+            transition: all 0.3s;
+        }
+
+        @media screen and (max-width: 768px) {
+            .profile-card-form {
+                max-width: 90%;
+                height: auto;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .profile-card-form {
+                padding: 20px;
+            }
+        }
+
+        .profile-card-form__bottom {
+            justify-content: space-between;
+            display: flex;
+        }
+
+        @media screen and (max-width: 576px) {
+            .profile-card-form__bottom {
+                flex-wrap: wrap;
+            }
+        }
+
+        .profile-card textarea {
+            width: 100%;
+            resize: none;
+            height: 210px;
+            margin-bottom: 20px;
+            border: 2px solid #dcdcdc;
+            border-radius: 10px;
+            padding: 15px 20px;
+            color: #324e63;
+            font-weight: 500;
+            font-family: "Quicksand", sans-serif;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .profile-card textarea:focus {
+            outline: none;
+            border-color: #8a979e;
+        }
+
+        .profile-card__overlay {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            opacity: 0;
+            background: rgba(22, 33, 72, 0.35);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+    </style>
+
+
+    <link rel="icon" href="https://raw.githubusercontent.com/sheikhtamimlover/ST-Handlers/refs/heads/main/st.png">
+
+</head>
+
+<body>
+    <!-- partial:index.partial.html -->
+    <div class="wrapper">
+        <div class="profile-card js-profile-card">
+            <div class="profile-card__img">
+                <img src="https://raw.githubusercontent.com/sheikhtamimlover/ST-Handlers/refs/heads/main/st.png"
+                    alt="profile card">
+            </div>
+
+            <div class="profile-card__cnt js-profile-cnt">
+                <div class="profile-card__name">ST | Sheikh Tamim</div>
+                <div class="profile-card__txt">Admin Project <strong>ST | BOT</strong></div>
+                <div class="profile-card-loc">
+                    <svg class="svg-icon" viewBox="0 0 20 20" width=25 height=25>
+                        <path fill=black
+                            d="M10,0.186c-3.427,0-6.204,2.778-6.204,6.204c0,5.471,6.204,6.806,6.204,13.424c0-6.618,6.204-7.953,6.204-13.424C16.204,2.964,13.427,0.186,10,0.186z M10,14.453c-0.66-1.125-1.462-2.076-2.219-2.974C6.36,9.797,5.239,8.469,5.239,6.39C5.239,3.764,7.374,1.63,10,1.63c2.625,0,4.761,2.135,4.761,4.761c0,2.078-1.121,3.407-2.541,5.089C11.462,12.377,10.66,13.328,10,14.453z">
+                        </path>
+                        <circle fill="black" cx="10" cy="5.67" r="1.608"></circle>
+                    </svg>
+                    <span class="profile-card-loc__txt">
+                        Dhaka, Bangladesh
+                    </span>
+                </div>
+                <div class="profile-card__homepage">
+                    <span>This is the homepage of the api for that project
+                    </span>
+                </div>
+
+                <!--=============== Contacts ===============-->
+                <div class="profile-card-inf__txt">
+                    Contacts Me:
+                </div>
+
+                <div class="profile-card-contacts">
+
+                    <a href="https://facebook.com/hamza.chudena">
+                        <img class="profile-card-contacts facebook"
+                            src="https://raw.githubusercontent.com/ntkhang03/resources-goat-bot/master/homepage/facebook.png"
+                            width=50 height=50 alt="facebook icon">
+                    </a>
+
+                    <a href="https://messenger.com/t/hamza.chudena">
+                        <img class="profile-card-contacts messenger"
+                            src="https://raw.githubusercontent.com/ntkhang03/resources-goat-bot/master/homepage/messenger.png"
+                            width=50 height=50 alt="messenger icon">
+                    </a>
+
+
+                    <a href="https://github.com/sheikhtamimlover">
+                        <img class="profile-card-contacts github"
+                            src="https://raw.githubusercontent.com/ntkhang03/resources-goat-bot/master/homepage/github.jpg"
+                            width=50 height=50 alt="github icon">
+                    </a>
+
+                </div>
+
+                <div class="profile-card-ctr">
+                    <button onclick="location.href='https:\/\/messenger.com\/t\/hamza.chudena'"
+                        class="profile-card__button button--blue js-message-btn">Message</button>
+                    <button onclick="location.href='https:\/\/facebook.com\/hamza.chudena'"
+                        class="profile-card__button button--orange">Follow</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- partial -->
+    <script>
+        const btn = document.querySelector('.js-message-btn');
+        const card = document.querySelector('.js-profile-card');
+
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            card.classList.add('active');
+        });
+    </script>
+
+</body>
+
+</html>
