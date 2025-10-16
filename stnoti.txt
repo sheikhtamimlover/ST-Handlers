@@ -1,0 +1,2 @@
+[!] The source code should only be downloaded from the official github page: https://github.com/sheikhtamimlover/ST-BOT
+[!] Thank you for using the project. Project created by ST | Sheikh Tamim (https://github.com/sheikhtamimlover)
