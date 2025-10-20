@@ -7,7 +7,7 @@ module.exports = {
   config: {
     name: "sing",
     aliases: ["song", "music"],
-    version: "2.4.63",
+    version: "2.4.69",
     author: "ST | Sheikh Tamim",
     countDown: 5,
     role: 0,
@@ -35,10 +35,12 @@ module.exports = {
 
       const video = searchResult.videos[0];
       const videoUrl = video.url;
+      
+      const stbotApi = new global.utils.STBotApis();
 
       const payload = { url: videoUrl };
       const response = await axios.post(
-        "https://st-dl.vercel.app/api/download/youtube-audio",
+        `${stbotApi.baseURL}/api/download/youtube-audio`,
         payload,
         { headers: { "Content-Type": "application/json" } }
       );
