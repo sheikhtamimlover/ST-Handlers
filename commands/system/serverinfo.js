@@ -7,7 +7,7 @@ module.exports = {
     role: 0,
     description: "Display detailed server information with animated canvas",
     category: "system",
-    guide: "{pn}"
+    guide: ""
   },
 
   ST: async function({ message, event, api }) {
