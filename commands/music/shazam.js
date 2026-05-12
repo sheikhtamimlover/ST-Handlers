@@ -9,7 +9,7 @@ module.exports = {
   config: {
     name: "shazam",
     aliases: [],
-    version: "1.0.0",
+    version: "1.0.1",
     author: "ST | Sheikh Tamim",
     countDown: 5,
     role: 0,
